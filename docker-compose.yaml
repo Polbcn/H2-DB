@@ -14,10 +14,27 @@ services:
     networks:
       - my_network
 
-volumes:
-  posgres_data:
-    driver: local
+  api:
+    build: ./api  # Ruta donde está tu script y Dockerfile
+    container_name: api_service
+    restart: always
+    depends_on:
+      - db
+    # environment:
+    #   - DATABASE_URL=postgresql://admin:adminpasswd@db:5432/H2-lab
+    ports:
+      - "8000:8000"
+    networks:
+      - my_network
+    volumes:
+      - /home/icehot03/H2_lab/H2-DB/api:/app
 
 networks:
   my_network:
     driver: bridge
+
+volumes:
+  posgres_data:
+    driver: local
+
+
