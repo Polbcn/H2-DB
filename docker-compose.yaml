@@ -27,7 +27,7 @@ services:
     networks:
       - my_network
     volumes:
-      - /home/icehot03/H2_lab/H2-DB/api:/app
+      - /home/h2lab/H2-DB/api:/app
 
 networks:
   my_network:
