@@ -64,5 +64,38 @@ def get_data_filtered():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+@app.route('/add_data_Lab', methods=['POST'])
+ def add_data_Lab():
+     data = request.json
+     try:
+        conn = get_db_connection()
+         cur = conn.cursor()
+         data = request.get_json()
+         print(data)
+         cur.execute('''
+             INSERT INTO Laboratorio (TVOC, SO2, O3, O2, NO2, H2S, CO2, CO, fecha)
+             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+         ''', (data['TVOC'], data['SO2'], data['O3'], data['O2'], data['NO2'],
+               data['H2S'], data['CO2'], data['CO'], data['fecha']))
+         conn.commit()
+         cur.close()
+         conn.close()
+         return jsonify({"message": "Data added successfully"}), 201
+     except Exception as e:
+         return jsonify({"error": str(e)}), 400
+
+@app.route('/get_data_Lab', methods=['GET'])
+def get_data_Lab():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute('SELECT * FROM Laboratorio ORDER BY fecha DESC')
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return jsonify(rows)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
