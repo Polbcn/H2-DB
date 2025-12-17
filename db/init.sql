@@ -1,10 +1,16 @@
 -- =========================
 -- Base de datos del laboratorio de H2 (UPC)
 -- =========================
-
+-- Tabla de locaciones
+CREATE TABLE locations (
+    id SERIAL PRIMARY KEY,
+    locacion VARCHAR(100) NOT NULL,
+    description TEXT
+);
 -- Tabla de equipos
 CREATE TABLE equipment (
     id SERIAL PRIMARY KEY,
+    location_id INT REFERENCES locations(id) ON DELETE SET NULL,
     name VARCHAR(100) NOT NULL,
     manufacturer VARCHAR(100),
     serial_number VARCHAR(100),
@@ -41,12 +47,7 @@ CREATE TABLE costs (
     date DATE DEFAULT CURRENT_DATE
 );
 
--- Tabla de locaciones
-CREATE TABLE locations (
-    id SERIAL PRIMARY KEY,
-    locacion VARCHAR(100) NOT NULL,
-    description TEXT
-);
+
 
 -- Tabla de relacion entre equipos y locaciones
 CREATE TABLE equipment_locations (

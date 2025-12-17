@@ -21,5 +21,5 @@ def create_location():
 @locations_bp.route("/", methods=["GET"])
 def get_all_locations():
     locations = Location.query.all()
-    result = [{"id": l.id, "locacion": l.locacion} for l in locations]
+    result = [{"id": l.id, "locacion": l.locacion, "description": l.description} for l in locations]
     return jsonify(result)
